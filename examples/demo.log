@@ -1,0 +1,20 @@
+DEB [20150406-21:49:20.977] thr=1   paramiko.transport: starting thread (client mode): 0xf135ff60
+ERR [20150406-21:49:20.992] thr=1   paramiko.transport: Exception: Error reading SSH protocol banner[Errno 104] Connection reset by peer
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport: Traceback (most recent call last):
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport:   File "/home/alexander/Projects/my_paramiko/venv/lib/python3.4/site-packages/paramiko/transport.py", line 1707, in _check_banner
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport:     buf = self.packetizer.readline(timeout)
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport:   File "/home/alexander/Projects/my_paramiko/venv/lib/python3.4/site-packages/paramiko/packet.py", line 281, in readline
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport:     buf += self._read_timeout(timeout)
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport:   File "/home/alexander/Projects/my_paramiko/venv/lib/python3.4/site-packages/paramiko/packet.py", line 434, in _read_timeout
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport:     x = self.__socket.recv(128)
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport: ConnectionResetError: [Errno 104] Connection reset by peer
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport: 
+ERR [20150406-21:49:20.993] thr=1   paramiko.transport: During handling of the above exception, another exception occurred:
+ERR [20150406-21:49:20.994] thr=1   paramiko.transport: 
+ERR [20150406-21:49:20.994] thr=1   paramiko.transport: Traceback (most recent call last):
+ERR [20150406-21:49:20.994] thr=1   paramiko.transport:   File "/home/alexander/Projects/my_paramiko/venv/lib/python3.4/site-packages/paramiko/transport.py", line 1584, in run
+ERR [20150406-21:49:20.994] thr=1   paramiko.transport:     self._check_banner()
+ERR [20150406-21:49:20.994] thr=1   paramiko.transport:   File "/home/alexander/Projects/my_paramiko/venv/lib/python3.4/site-packages/paramiko/transport.py", line 1711, in _check_banner
+ERR [20150406-21:49:20.994] thr=1   paramiko.transport:     raise SSHException('Error reading SSH protocol banner' + str(e))
+ERR [20150406-21:49:20.994] thr=1   paramiko.transport: paramiko.ssh_exception.SSHException: Error reading SSH protocol banner[Errno 104] Connection reset by peer
+ERR [20150406-21:49:20.994] thr=1   paramiko.transport: 
