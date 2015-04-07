@@ -29,6 +29,19 @@ from paramiko.py3compat import input
 
 import paramiko
 
+# Echo client program
+def call_server(message):
+    message = pickle.dumps(message)
+    HOST = '127.0.0.1'    # The remote host
+    PORT = 5004              # The same port as used by the server
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    s.sendall(message)
+    data = s.recv(1024)
+    s.close()
+    return pickle.loads(data)
+    # print 'Received', repr(data)
+
 
 # setup logging
 paramiko.util.log_to_file('demo_client.log')
@@ -36,33 +49,9 @@ paramiko.util.log_to_file('demo_client.log')
 UseGSSAPI = True             # enable GSS-API / SSPI authentication
 DoGSSAPIKeyExchange = True
 port = 22
-
-# get hostname
+hostname = '192.168.1.8'
 username = 'pi'
-if True:
-    hostname = 'pi@192.168.1.8'
-    if hostname.find('@') >= 0:
-        username, hostname = hostname.split('@')
-else:
-    hostname = input('Hostname: ')
-if len(hostname) == 0:
-    print('*** Hostname required.')
-    sys.exit(1)
-
-if hostname.find(':') >= 0:
-    hostname, portstr = hostname.split(':')
-    port = int(portstr)
-
-
-# get username
-if username == '':
-    default_username = getpass.getuser()
-    username = input('Username [%s]: ' % default_username)
-    if len(username) == 0:
-        username = default_username
-if not UseGSSAPI or (not UseGSSAPI and not DoGSSAPIKeyExchange):
-    password = getpass.getpass('Password for %s@%s: ' % (username, hostname))
-
+password = 'b1tbit'
 
 # now, connect and use paramiko Client to negotiate SSH2 across the connection
 try:
@@ -79,14 +68,16 @@ try:
             client.connect(hostname, port, username, gss_auth=UseGSSAPI,
                            gss_kex=DoGSSAPIKeyExchange)
         except Exception:
-            password = getpass.getpass('Password for %s@%s: ' % (username, hostname))
+            # password = getpass.getpass('Password for %s@%s: ' % (username, hostname))
             client.connect(hostname, port, username, password)
 
     chan = client.invoke_shell()
     print(repr(client.get_transport()))
     print('*** Here we go!\n')
-    chan.send('ls')
-    print(chan.recv(5000))
+    stdin, stdout, stderr = client.exec_command("~/Projects/HAMC/connect_to_socket.py '")
+    type(stdin)
+    print(stdout.readlines())
+    # print(chan.recv(5000))
     # interactive.interactive_shell(chan)
     chan.close()
     client.close()
